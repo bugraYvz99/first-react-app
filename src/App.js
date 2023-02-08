@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import Loading from "./components/Loading";
+import TodoTable from "./components/TodoTable";
+import UserTable from "./components/UserTable";
+import PostTable from "./components/PostTable";
+import Navbar from "./components/Navbar";
 
 function App() {
+  const [todos, setTodos] = useState([]); // !!! UseState asenkron çalışır, sayfa ikinci kez render edildiği zaman değer ancak o zaman değişir.
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    Promise.all([
+      axios.get("https://jsonplaceholder.typicode.com/todos"),
+      axios.get("https://jsonplaceholder.typicode.com/posts"),
+      axios.get("https://jsonplaceholder.typicode.com/users"),
+    ]).then((results) => {
+      const [todosResult, postsResult, usersResult] = results.map((result) => result.data);
+      setTodos(todosResult);
+      setPosts(postsResult);
+      setUsers(usersResult);
+    });
+    
+  }, []);
+  
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container my-5">
+      <Navbar/>
+      <h1 className="text-center">Users</h1>
+      <UserTable users={users} />
+      <h1 className="text-center">Todos</h1>
+      <TodoTable todos={todos} />
+      <h1 className="text-center">Posts</h1>
+      <PostTable posts={posts} />
+      
     </div>
-  );
-}
+  );}
 
 export default App;
