@@ -1,4 +1,4 @@
-import "./App.css";
+
 import axios, { formToJSON } from "axios";
 import { useState, useEffect } from "react";
 import Loading from "./components/Loading";
@@ -8,7 +8,7 @@ import PostTable from "./components/PostTable.js"
 import { BrowserRouter as Router, Route,Routes} from 'react-router-dom';
 import UserDetail from"./components/UserDetail.js"
 import Navbar from "./components/Navbar.js"
-
+import "./App.css";
 
 function App() {
   const [todos, setTodos] = useState([]); // !!! UseState asenkron çalışır, sayfa ikinci kez render edildiği zaman değer ancak o zaman değişir.
@@ -46,7 +46,7 @@ function App() {
               <PostTable posts={posts} />
             </>
           } />
-          <Route path="/user/:id" element={<UserDetail users={users} />} />
+          <Route path="/users/:id" element={<UserDetail users={users} />} />
         </Routes>
       </div>
     </Router>
