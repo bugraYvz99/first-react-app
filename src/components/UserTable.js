@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserTable = ({ users }) => {
   return (
@@ -12,9 +13,11 @@ const UserTable = ({ users }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {users.map((user) => (
             <tr key={user.id}>
-              <td><a href={`user/${user.id-1}`}>{user.id}</a></td>
+              <td>
+                <Link to={`users/${user.id}`}>{user.id}</Link>
+              </td>
               <td>{user.name}</td>
               <td>{user.username}</td>
             </tr>
