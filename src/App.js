@@ -1,11 +1,14 @@
 import "./App.css";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
 import { useState, useEffect } from "react";
 import Loading from "./components/Loading";
-import TodoTable from "./components/TodoTable";
-import UserTable from "./components/UserTable";
-import PostTable from "./components/PostTable";
-import Navbar from "./components/Navbar";
+import TodoTable from "./components/TodoTable.js"
+import UserTable from "./components/UserTable.js"
+import PostTable from "./components/PostTable.js"
+import { BrowserRouter as Router, Route,Routes} from 'react-router-dom';
+import UserDetail from"./components/UserDetail.js"
+import Navbar from "./components/Navbar.js"
+
 
 function App() {
   const [todos, setTodos] = useState([]); // !!! UseState asenkron çalışır, sayfa ikinci kez render edildiği zaman değer ancak o zaman değişir.
@@ -28,16 +31,25 @@ function App() {
   
 
   return (
-    <div className="container my-5">
-      <Navbar/>
-      <h1 className="text-center">Users</h1>
-      <UserTable users={users} />
-      <h1 className="text-center">Todos</h1>
-      <TodoTable todos={todos} />
-      <h1 className="text-center">Posts</h1>
-      <PostTable posts={posts} />
-      
-    </div>
+    <Router>
+      <div className="container my-5">
+        
+        <Routes>
+          <Route exact path="/" element={
+            <>
+            <Navbar />
+              <h1 className="text-center">Users</h1>
+              <UserTable users={users} />
+              <h1 className="text-center">Todos</h1>
+              <TodoTable todos={todos} />
+              <h1 className="text-center">Posts</h1>
+              <PostTable posts={posts} />
+            </>
+          } />
+          <Route path="/user/:id" element={<UserDetail users={users} />} />
+        </Routes>
+      </div>
+    </Router>
   );}
 
 export default App;
